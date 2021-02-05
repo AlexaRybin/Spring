@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
@@ -133,5 +134,14 @@ public class User implements UserDetails {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getRoleStr(User user){
+        String roleStr = new String();
+        Set<Role> set = user.getRole();
+        for (Role role : set){
+            roleStr += role.getRole().replace("ROLE_"," ");
+        }
+            return roleStr;
     }
 }

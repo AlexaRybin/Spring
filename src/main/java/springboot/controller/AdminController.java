@@ -1,6 +1,9 @@
 package springboot.controller;
 
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +18,10 @@ import java.util.Set;
 @RequestMapping("/admin")
 public class AdminController {
 
+    private Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     private final UserService userServiceImp;
 
-    public AdminController(UserService userServiceImp) {
+    public AdminController( UserService userServiceImp) {
         this.userServiceImp = userServiceImp;
     }
 
@@ -27,8 +31,11 @@ public class AdminController {
 //    }
 
     @GetMapping
-    public String index(ModelMap model) {
+    public String index(ModelMap model, Authentication authentication) {
         System.out.println("herata");
+        User user = (User) authentication.getPrincipal();
+        String role = user.getRoleStr(user);
+        model.addAttribute("user", user);
         model.addAttribute("users", userServiceImp.index());
         return "/admin/index";
     }
