@@ -46,10 +46,16 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Transactional
     @Override
     public User save(User user) {
+        String role = user.getRoleForHTML();
+//        Set<Role> arr = new HashSet<>();
+        user.setRole(new HashSet<>());
+        if (role.contains("ADMIN")){
+            user.getRole().add(getRoleFromId(1));
+        }
+        if (role.contains("USER")){
+            user.getRole().add(getRoleFromId(2));
+        }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Set<Role> arr = new HashSet<>();
-        arr.add(getRoleFromId(2));
-        user.setRole(arr);
         return userRepository.save(user);
     }
 

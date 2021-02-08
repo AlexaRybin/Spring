@@ -34,9 +34,16 @@ public class AdminController {
     public String index(ModelMap model, Authentication authentication) {
         System.out.println("herata");
         User user = (User) authentication.getPrincipal();
-        String role = user.getRoleStr(user);
+//        String role = user.getRoleStr(user);
+//        createFirstUser();
         model.addAttribute("user", user);
         model.addAttribute("users", userServiceImp.index());
+        model.addAttribute("newUser", new User());
+        model.addAttribute("str", new String());
+        Set<Role> roleList = new HashSet<>();
+        roleList.add(userServiceImp.getRoleFromId(1));
+        roleList.add(userServiceImp.getRoleFromId(2));
+        model.addAttribute("roleList", roleList);
         return "/admin/index";
     }
 
@@ -54,7 +61,7 @@ public class AdminController {
     }
 
     @PostMapping("/add") // was users
-    public String create(@ModelAttribute("user") User user){
+    public String create(@ModelAttribute("newUser") User user){
         userServiceImp.save(user);
         return "redirect:/admin";
     }
@@ -87,9 +94,11 @@ public class AdminController {
         User user = new User();
         user.setId(1L);
         user.setName("test");
+        user.setLastName("Ltest");
         user.setPassword("test");
         Set<Role> set = new HashSet<>();
         set.add(new Role(1, "ROLE_ADMIN"));
+        set.add(new Role(2, "ROLE_USER"));
         user.setRole(set);
         userServiceImp.save(user);
     }

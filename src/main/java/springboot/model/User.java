@@ -13,7 +13,7 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
@@ -28,28 +28,38 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
+    @Column(name = "last_name")
+    private String lastName;
+
     @Transient
     private String passwordConfirm;
+
+    @Transient
+    private String roleForHTML;
 
     @ManyToMany(fetch = FetchType.EAGER) // узнать что такое fetch = FetchType.EAGER
     private Set<Role> roles;
 
-    public User(Long id, String name, String password, String email){
+    public User(Long id, String name,String lastName, String password, String email) {
         this.id = id;
-        this.password= password;
+        this.password = password;
         this.name = name;
         this.email = email;
+        this.lastName= lastName;
     }
-    public User(Long id, String name, int age, String password, String email, Set<Role> role) {
+
+    public User(Long id, String name, String lastName, int age, String password, String email, Set<Role> role) {
         this.email = email;
         this.age = age;
         this.roles = role;
         this.id = id;
-        this.password= password;
+        this.password = password;
         this.name = name;
+        this.lastName= lastName;
     }
 
-    public User() { }
+    public User() {
+    }
 
     public String getName() {
         return name;
@@ -67,13 +77,15 @@ public class User implements UserDetails {
         return id;
     }
 
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public  Set<Role> getRole(){
+    public Set<Role> getRole() {
         return roles;
     }
 
-    public void setRole(Set<Role> role){
+    public void setRole(Set<Role> role) {
         this.roles = role;
     }
 
@@ -136,12 +148,28 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public String getRoleStr(User user){
+    public String getRoleStr(User user) {
         String roleStr = new String();
         Set<Role> set = user.getRole();
-        for (Role role : set){
-            roleStr += role.getRole().replace("ROLE_"," ");
+        for (Role role : set) {
+            roleStr += role.getRole().replace("ROLE_", " ");
         }
-            return roleStr;
+        return roleStr;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getRoleForHTML() {
+        return roleForHTML;
+    }
+
+    public void setRoleForHTML(String roleForHTML) {
+        this.roleForHTML = roleForHTML;
     }
 }
