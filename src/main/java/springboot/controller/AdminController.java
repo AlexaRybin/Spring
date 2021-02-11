@@ -18,17 +18,12 @@ import java.util.Set;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    private Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     private final UserService userServiceImp;
 
     public AdminController( UserService userServiceImp) {
         this.userServiceImp = userServiceImp;
     }
-
-//    @GetMapping(value = "/login")
-//    public String getLoginPage() {
-//        return "/admin/login";
-//    }
 
     @GetMapping
     public String index(ModelMap model, Authentication authentication) {
@@ -36,7 +31,7 @@ public class AdminController {
         User user = (User) authentication.getPrincipal();
 //        String role = user.getRoleStr(user);
 //        createFirstUser();
-        model.addAttribute("user", user);
+        model.addAttribute("userNow", user);
         model.addAttribute("users", userServiceImp.index());
         model.addAttribute("newUser", new User());
         model.addAttribute("str", new String());
@@ -47,18 +42,18 @@ public class AdminController {
         return "/admin/index";
     }
 
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") Long id, ModelMap model){
-        model.addAttribute("user", userServiceImp.getUserFromId(id));
-        return "/admin/show";
+    @GetMapping("/user_page")
+    public String showActiveUser(ModelMap modelMap, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        modelMap.addAttribute("active", user);
+        return "admin/show";
     }
 
-    @GetMapping("/new")
-    public String newUser(ModelMap model){
-        model.addAttribute("user", new User());
-        model.addAttribute("role", new String());
-        return "/admin/new";
-    }
+//    @GetMapping("/{id}")
+//    public String show(@PathVariable("id") Long id, ModelMap model){
+//        model.addAttribute("user", userServiceImp.getUserFromId(id));
+//        return "/admin/show";
+//    }
 
     @PostMapping("/add") // was users
     public String create(@ModelAttribute("newUser") User user){
@@ -66,20 +61,11 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(ModelMap model, @PathVariable("id") Long id) {
-        Set<Role> roleList = new HashSet<>();
-        roleList.add(userServiceImp.getRoleFromId(1));
-        roleList.add(userServiceImp.getRoleFromId(2));
-        model.addAttribute("user", userServiceImp.getUserFromId(id));
-        model.addAttribute("roleList", roleList);
-        return "/admin/edit";
-    }
 
     @PostMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id, @RequestParam(value = "setRoles", required = false) String roles) {
+    public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
         System.out.println("ne rab");
-        userServiceImp.update(id, user, roles);
+        userServiceImp.update(id, user);
         return "redirect:/admin";
     }
 

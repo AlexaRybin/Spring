@@ -11,7 +11,7 @@ public interface UserService {
     public List<User> index();
 //    public Optional<User> show(Long id);
     public User save(User user);
-    public User update(Long id, User user, String role);
+    public User update(Long id, User user);
     public void delete(Long id);
     public User getUserFromId(Long id);
     public Role getRoleFromId(int id);
