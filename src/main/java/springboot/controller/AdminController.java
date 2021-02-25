@@ -27,7 +27,7 @@ public class AdminController {
 
     @GetMapping
     public String index(ModelMap model, Authentication authentication) {
-        System.out.println("herata");
+
         User user = (User) authentication.getPrincipal();
 //        String role = user.getRoleStr(user);
 //        createFirstUser();
@@ -69,12 +69,12 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PostMapping("/del/{id}")
-    public String delete(@PathVariable("id") Long id){
-        System.out.println("del");
-        userServiceImp.delete(id);
-        return "redirect:/admin";
-    }
+//    @PostMapping("/del/{id}")
+//    public String delete(@PathVariable("id") Long id){
+//        System.out.println("del");
+//        userServiceImp.delete(id);
+//        return "redirect:/admin";
+//    }
 
     public void createFirstUser(){
         User user = new User();

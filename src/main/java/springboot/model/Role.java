@@ -1,5 +1,7 @@
 package springboot.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -19,6 +21,8 @@ public class Role implements GrantedAuthority {
     private String role;
 
 //    @Transient
+
+    @JsonBackReference
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY) // тоже узнай, что внутри скобок
     private Set<User> users;
 
