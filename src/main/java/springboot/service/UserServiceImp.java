@@ -1,9 +1,5 @@
 package springboot.service;
 
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +8,12 @@ import springboot.model.User;
 import springboot.repository.RoleRepository;
 import springboot.repository.UserRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
-public class UserServiceImp implements UserService, UserDetailsService {
+public class UserServiceImp implements UserService {
 
 
     private final UserRepository userRepository;
@@ -107,12 +101,5 @@ public class UserServiceImp implements UserService, UserDetailsService {
         Set<Role> setRole = user.getRole();
 
         return setRole;
-    }
-
-
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findUserByName(s);
-        return user;
     }
 }

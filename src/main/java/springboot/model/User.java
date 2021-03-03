@@ -41,7 +41,7 @@ public class User implements UserDetails {
     private String roleForHTML;
 
     @JsonManagedReference
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER) // узнать что такое fetch = FetchType.EAGER
     private Set<Role> roles;
 
     public User(Long id, String name,String lastName, String password, String email) {

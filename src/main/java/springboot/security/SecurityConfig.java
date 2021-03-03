@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-    public SecurityConfig(@Qualifier("userServiceImp") UserDetailsService userDetailsService, SuccessUserHandler successUserHandler) {//?!
+    public SecurityConfig(@Qualifier("securityServer") UserDetailsService userDetailsService, SuccessUserHandler successUserHandler) {//?!
         this.userDetailsService = userDetailsService;
         this.successUserHandler = successUserHandler;
     }
