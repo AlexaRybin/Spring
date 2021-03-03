@@ -47,7 +47,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     public User save(User user) {
         String role = user.getRoleForHTML();
-//        Set<Role> arr = new HashSet<>();
         user.setRole(new HashSet<>());
         if (role.contains("ADMIN")){
             user.getRole().add(getRoleFromId(1));
@@ -96,6 +95,11 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     public Role getRoleFromId(int id) {
         return roleRepository.findRoleById(id);
+    }
+
+    @Override
+    public List<Role> getAllRole() {
+        return (List<Role>) roleRepository.findAll();
     }
 
     public Set<Role> getSetUser( Long id) {

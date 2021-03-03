@@ -1,6 +1,7 @@
 package springboot.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springboot.model.User;
@@ -19,31 +20,29 @@ public class TestController {
     }
 
     @GetMapping
-    public List<User> getList(){
-        List<User> arr = userService.index();
-        return arr;
+    public ResponseEntity<List<User>> getList(){
+        return ResponseEntity.ok(userService.index());
     }
 
     @GetMapping("/now")
-    public User authUser(Authentication authentication){
-        User user = (User) authentication.getPrincipal();
-        return user;
+    public ResponseEntity<User> authUser(Authentication authentication){
+        return ResponseEntity.ok((User) authentication.getPrincipal());
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
-    public User saveNewUser(User newUser){
-        return userService.save(newUser);
+    public ResponseEntity<User> saveNewUser(User newUser){
+        return ResponseEntity.ok(userService.save(newUser));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/edit")
-    public  User editUser(User user){
-        return userService.update(user.getId(), user);
+    @PutMapping("/edit")
+    public ResponseEntity<User> editUser(User user){
+        return ResponseEntity.ok(userService.update(user.getId(), user));
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/del")
+    @DeleteMapping("/del")
     public void delUser(Long id){
         userService.delete(id);
     }

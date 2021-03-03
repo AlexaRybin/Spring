@@ -101,7 +101,7 @@ $(document).on("click", "#btnEdit", function () {
     let user = $("#formToEdit").serialize();
 
     $.ajax({
-        type: "POST",
+        type: "PUT",
         url: "/users/edit",
         data: user,
         timeout: 3000,
@@ -127,7 +127,7 @@ $(document).on("click", "#btnDel", function () {
     let user = $("#formDel").serialize();
 
     $.ajax({
-        type: "POST",
+        type: "DELETE",
         url: "/users/del",
         data: {id : $('#idDel').val()},
         timeout: 3000,

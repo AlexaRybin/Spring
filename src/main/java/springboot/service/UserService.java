@@ -6,6 +6,7 @@ import springboot.model.Role;
 import springboot.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
     public List<User> index();
@@ -15,4 +16,5 @@ public interface UserService {
     public void delete(Long id);
     public User getUserFromId(Long id);
     public Role getRoleFromId(int id);
+    List<Role> getAllRole();
 }

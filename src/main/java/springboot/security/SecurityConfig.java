@@ -29,52 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); //посмотри про passwordEncoder, возможно не взлетит
     }
 
-//    @Override
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("ADMIN").password("ADMIN").roles("ADMIN");
-//    }
-
-    //завтра начать от сюда
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable();
-//        http.formLogin()
-//                // указываем страницу с формой логина
-//                .loginPage("/login")
-//                //указываем логику обработки при логине
-//                .successHandler(new LoginSuccessHandler())
-//                // указываем action с формы логина
-//                .loginProcessingUrl("/login")
-//                // Указываем параметры логина и пароля с формы логина
-//                .usernameParameter("j_username")
-//                .passwordParameter("j_password")
-//                // даем доступ к форме логина всем
-//                .permitAll();
-//
-//        http.logout()
-//                // разрешаем делать логаут всем
-//                .permitAll()
-//                // указываем URL логаута
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                // указываем URL при удачном логауте
-//                .logoutSuccessUrl("/login?logout")
-//                //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
-//                .and().csrf().disable();
-
         http
-                // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
-//                .antMatchers("/registration").fullyAuthenticated()
-//                .antMatchers("/").permitAll()
-
-                //страницы аутентификаци доступна всем
                 .antMatchers("/login").anonymous()
-//                .antMatchers("/admin/**").permitAll()
-                // защищенные URL
                 .antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
                 .antMatchers("/user/**").hasAnyRole("USER")
-
-//                .anyRequest().authenticated();
                 .and().formLogin()
                 .successHandler(successUserHandler)
                 .and().logout()
