@@ -10,7 +10,6 @@ import java.util.Set;
 
 public interface UserService {
     public List<User> index();
-//    public Optional<User> show(Long id);
     public User save(User user);
     public User update(Long id, User user);
     public void delete(Long id);
